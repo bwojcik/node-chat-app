@@ -18,11 +18,13 @@ function scrollToBottom () {
 
 socket.on('connect', function () {
 	var params = jQuery.deparam(window.location.search);
+	params.room = params.room.toLowerCase();
 	socket.emit('join', params, function (error) {
 		if (error) {
 			alert(error);
 			window.location.href = '/';
 		} else {
+			jQuery('#room-name').text(`Room: ${params.room}`);
 			console.log('No error');
 		}
 	});

@@ -2,6 +2,7 @@ const path = require('path');
 const http = require('http');
 const express = require('express');
 const socketIO = require('socket.io');
+const emoji = require('node-emoji')
 const {generateMessage, generateLocationMessage} = require('./utils/message');
 const {isRealString} = require('./utils/validation.js');
 const {Users} = require('./utils/users.js');
@@ -44,7 +45,7 @@ io.on('connection', (socket) => {
 		var user = users.getUser(socket.id);
 
 		if (user && isRealString(message.text)) {
-			io.to(user.room).emit('newMessage', generateMessage(user.name, message.text));	
+			io.to(user.room).emit('newMessage', generateMessage(user.name, emoji.emojify(message.text)));	
 		} 
 
 		callback();
